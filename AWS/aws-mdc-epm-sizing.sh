@@ -124,7 +124,7 @@ aws_emr_list_clusters() {
 }
 
 aws_kinesis_list_streams() {
-  RESULT=$(aws kinesis list-streams --region="${1}" --active --output json 2>/dev/null)
+  RESULT=$(aws kinesis list-streams --region="${1}" --output json 2>/dev/null)
   if [ $? -eq 0 ]; then
     echo "${RESULT}"
   else
@@ -382,7 +382,7 @@ count_account_resources() {
       echo "Kinesis"
       for i in "${REGION_LIST[@]}"
       do
-        RESOURCE_COUNT=$(aws_kinesis_list_streams "${i}" |  jq -r '.Clusters | length')
+        RESOURCE_COUNT=$(aws_kinesis_list_streams "${i}" |  jq -r '.StreamNames | length')
         echo "   Kinesis streams in Region ${i}: ${RESOURCE_COUNT}"
         KINESIS_COUNT=$((KINESIS_COUNT + RESOURCE_COUNT))
       done
