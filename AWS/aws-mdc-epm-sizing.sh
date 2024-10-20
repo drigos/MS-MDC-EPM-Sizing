@@ -133,7 +133,7 @@ aws_kinesis_list_streams() {
 }
 
 aws_elasticache_describe_cache_clusters() {
-  RESULT=$(aws elasticache describe-cache-clusters --region="${1}" --active --output json 2>/dev/null)
+  RESULT=$(aws elasticache describe-cache-clusters --region="${1}" --output json 2>/dev/null)
   if [ $? -eq 0 ]; then
     echo "${RESULT}"
   else
@@ -394,7 +394,7 @@ count_account_resources() {
       echo "Elasticache Clusters"
       for i in "${REGION_LIST[@]}"
       do
-        RESOURCE_COUNT=$(aws_elasticache_describe_cache_clusters "${i}" |  jq -r '.Clusters | length')
+        RESOURCE_COUNT=$(aws_elasticache_describe_cache_clusters "${i}" |  jq -r '.CacheClusters | length')
         echo "   Elasticache Clusters in Region ${i}: ${RESOURCE_COUNT}"
         ELASTICACHE_COUNT=$((ELASTICACHE_COUNT + RESOURCE_COUNT))
       done
